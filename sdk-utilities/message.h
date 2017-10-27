@@ -5,6 +5,7 @@
 
 #include <QByteArray>
 
+// this message is used by client and server to exchange information
 struct Message{
     enum class Type{
         STATUS_REQUEST,
