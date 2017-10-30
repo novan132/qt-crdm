@@ -12,9 +12,10 @@
 namespace MessageUtils {
     inline void sendMessage(QTcpSocket& socket,
                             Message::Type messageType,
-                            QByteArray& data)
+                            QByteArray& data,
+                            int revision)
     {
-        Message message(messageType, data);
+        Message message(messageType, data, revision);
 
         QByteArray byteArray;
         QDataStream stream(&byteArray, QIODevice::WriteOnly);

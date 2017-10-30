@@ -16,11 +16,13 @@ struct SDKUTILITIESSHARED_EXPORT Message{
         DATA_RESULT,    // type for returning radar and relay status, data: list of radar and relay
     };
     Message(const Type type = Type::STATUS_REQUEST,
-            const QByteArray& data = QByteArray()):
+            const QByteArray& data = QByteArray(),
+            int revision):
         type(type),
-        data(data)
+        data(data),
+        revision(revision)
     {}
-    qint8 size;
+    int revision;
     Type type;
     QByteArray data;
 };
