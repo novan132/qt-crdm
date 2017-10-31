@@ -1,6 +1,8 @@
 #ifndef RELAYDAO_H
 #define RELAYDAO_H
 
+#include <QVector>
+
 class QSqlDatabase;
 class Relay;
 
@@ -12,6 +14,8 @@ public:
 
     void addRelay(Relay& relay) const;
     void updateRelay(const Relay& relay) const;
+
+    QVector<Relay* > relays() const;
 private:
     QSqlDatabase& mDatabase;
 };

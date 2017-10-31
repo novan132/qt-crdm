@@ -53,3 +53,21 @@ void RadarDao::removeRadar(int id) const
     query.bindValue(":id", id);
     query.exec();
 }
+
+QVector<Radar *> RadarDao::radars() const
+{
+    QSqlQuery query("SELECT * FROM radars", mDatabase);
+    query.exec();
+
+    QVector<Radar*> list;
+
+    while (query.next()){
+        Radar* radar = new Radar();
+        radar->setId(query.value("id").toInt());
+        radar->setName(query.value("name").toString());
+        radar->setPort(query.value("port").toInt());
+        radar->setStatus(query.value("status").toString());
+        list.push_back(radar);
+    }
+    return list;
+}

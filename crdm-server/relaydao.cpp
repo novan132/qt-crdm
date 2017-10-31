@@ -42,3 +42,20 @@ void RelayDao::updateRelay(const Relay &relay) const
     query.bindValue(":status", relay.status());
     query.bindValue(":id", relay.id());
 }
+
+QVector<Relay *> RelayDao::relays() const
+{
+    QSqlQuery query("SELECT * FROM relays", mDatabase);
+    query.exec();
+
+    QVector<Relay*> list;
+
+    while (query.next()){
+        Relay* relay = new Relay();
+        relay->setId(query.value("id").toInt());
+        relay->setName(query.value("name").toString());
+        relay->setStatus(query.value("status").toString());
+        list.push_back(relay);
+    }
+    return list;
+}
