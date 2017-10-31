@@ -48,6 +48,7 @@ QVector<Relay *> RelayDao::relays() const
     QSqlQuery query("SELECT * FROM relays", mDatabase);
     query.exec();
 
+    // Remeber to delete Relay*
     QVector<Relay*> list;
 
     while (query.next()){
@@ -58,4 +59,5 @@ QVector<Relay *> RelayDao::relays() const
         list.push_back(relay);
     }
     return list;
+    // Relay* not deleted here
 }

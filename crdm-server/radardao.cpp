@@ -59,6 +59,7 @@ QVector<Radar *> RadarDao::radars() const
     QSqlQuery query("SELECT * FROM radars", mDatabase);
     query.exec();
 
+    // remember to delete Radar*
     QVector<Radar*> list;
 
     while (query.next()){
@@ -70,4 +71,5 @@ QVector<Radar *> RadarDao::radars() const
         list.push_back(radar);
     }
     return list;
+    // Radar* not deleted here
 }

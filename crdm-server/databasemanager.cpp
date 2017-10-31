@@ -16,8 +16,13 @@ DatabaseManager::~DatabaseManager()
 }
 
 DatabaseManager::DatabaseManager(const QString &path):
-    mDatabase(new QSqlDatabase(QSqlDatabase::addDatabase("QSQLITE")))
+    mDatabase(new QSqlDatabase(QSqlDatabase::addDatabase("QSQLITE"))),
+    radarDao(*mDatabase),
+    relayDao(*mDatabase)
 {
     mDatabase->setDatabaseName(path);
     mDatabase->open();
+
+    radarDao.init();
+    relayDao.init();
 }

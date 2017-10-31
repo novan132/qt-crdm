@@ -20,10 +20,10 @@ namespace MessageUtils {
         QByteArray byteArray;
         QDataStream stream(&byteArray, QIODevice::WriteOnly);
         stream << message;
-        socket.write(message);
+        socket.write(byteArray);
 
     }
-    inline Message& readMessage(QDataStream& stream)
+    inline Message readMessage(QDataStream& stream)
     {
         auto message = Message();
 
@@ -31,7 +31,7 @@ namespace MessageUtils {
         stream >> message;
 
         if (!stream.commitTransaction()){
-            return;
+            return Message();
         }
         return message;
     }

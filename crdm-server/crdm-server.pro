@@ -1,4 +1,4 @@
-QT += core sql
+QT += core sql network
 QT -= gui
 
 CONFIG += c++11
@@ -12,7 +12,9 @@ TEMPLATE = app
 SOURCES += main.cpp \
     databasemanager.cpp \
     radardao.cpp \
-    relaydao.cpp
+    relaydao.cpp \
+    workerclient.cpp \
+    workerradar.cpp
 
 # The following define makes your compiler emit warnings if you use
 # any feature of Qt which as been marked deprecated (the exact warnings
@@ -35,4 +37,6 @@ DEPENDPATH += $$PWD/../sdk-utilities
 HEADERS += \
     databasemanager.h \
     radardao.h \
-    relaydao.h
+    relaydao.h \
+    workerclient.h \
+    workerradar.h
