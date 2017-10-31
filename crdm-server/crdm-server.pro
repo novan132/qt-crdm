@@ -1,4 +1,4 @@
-QT += core
+QT += core sql
 QT -= gui
 
 CONFIG += c++11
@@ -9,7 +9,10 @@ CONFIG -= app_bundle
 
 TEMPLATE = app
 
-SOURCES += main.cpp
+SOURCES += main.cpp \
+    databasemanager.cpp \
+    radardao.cpp \
+    relaydao.cpp
 
 # The following define makes your compiler emit warnings if you use
 # any feature of Qt which as been marked deprecated (the exact warnings
@@ -28,3 +31,8 @@ else:unix: LIBS += -L$$OUT_PWD/../sdk-utilities/ -lsdk-utilities
 
 INCLUDEPATH += $$PWD/../sdk-utilities
 DEPENDPATH += $$PWD/../sdk-utilities
+
+HEADERS += \
+    databasemanager.h \
+    radardao.h \
+    relaydao.h
