@@ -35,7 +35,7 @@ void WorkerRadar::start()
 
 void WorkerRadar::notifyRadarStatus()
 {
-    emit updateRadarStatus(mRadar);
+    emit radarStatusUpdated(mRadar);
 }
 
 void WorkerRadar::stopRadarUpdate()

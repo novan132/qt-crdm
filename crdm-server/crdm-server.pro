@@ -14,7 +14,8 @@ SOURCES += main.cpp \
     radardao.cpp \
     relaydao.cpp \
     workerclient.cpp \
-    workerradar.cpp
+    workerradar.cpp \
+    crdmserver.cpp
 
 # The following define makes your compiler emit warnings if you use
 # any feature of Qt which as been marked deprecated (the exact warnings
@@ -39,4 +40,5 @@ HEADERS += \
     radardao.h \
     relaydao.h \
     workerclient.h \
-    workerradar.h
+    workerradar.h \
+    crdmserver.h

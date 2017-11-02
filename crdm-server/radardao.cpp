@@ -5,7 +5,7 @@
 #include <QVariant>
 
 #include "radardao.h"
-#include "radar.h"
+
 
 RadarDao::RadarDao(QSqlDatabase &database):
     mDatabase(database)
@@ -22,7 +22,7 @@ void RadarDao::init() const
     }
 }
 
-void RadarDao::addRadar(Radar &radar) const
+void RadarDao::addRadar(Radar radar) const
 {
     QSqlQuery query(mDatabase);
     query.prepare("INSERT INTO radars (name, port, status)"
@@ -34,7 +34,7 @@ void RadarDao::addRadar(Radar &radar) const
     radar.setId(query.lastInsertId().toInt());
 }
 
-void RadarDao::updateRadar(const Radar &radar) const
+void RadarDao::updateRadar(const Radar radar) const
 {
     QSqlQuery query(mDatabase);
     query.prepare("UPDATE radars SET name = (:name), port = (:port), status = (:status)"
@@ -54,20 +54,20 @@ void RadarDao::removeRadar(int id) const
     query.exec();
 }
 
-QVector<Radar *> RadarDao::radars() const
+QVector<Radar> RadarDao::radars() const
 {
     QSqlQuery query("SELECT * FROM radars", mDatabase);
     query.exec();
 
     // remember to delete Radar*
-    QVector<Radar*> list;
+    QVector<Radar> list;
 
     while (query.next()){
-        Radar* radar = new Radar();
-        radar->setId(query.value("id").toInt());
-        radar->setName(query.value("name").toString());
-        radar->setPort(query.value("port").toInt());
-        radar->setStatus(query.value("status").toString());
+        Radar radar;
+        radar.setId(query.value("id").toInt());
+        radar.setName(query.value("name").toString());
+        radar.setPort(query.value("port").toInt());
+        radar.setStatus(query.value("status").toString());
         list.push_back(radar);
     }
     return list;

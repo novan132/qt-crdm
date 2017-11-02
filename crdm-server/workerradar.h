@@ -16,7 +16,7 @@ public:
     void start();
 
 signals:
-    void updateRadarStatus(Radar radar);
+    void radarStatusUpdated(Radar radar);
 
 public slots:
     void stopRadarUpdate();

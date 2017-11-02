@@ -5,7 +5,7 @@
 #include <QVariant>
 
 #include "relaydao.h"
-#include "relay.h"
+
 
 RelayDao::RelayDao(QSqlDatabase &database):
     mDatabase(database)
@@ -22,7 +22,7 @@ void RelayDao::init() const
     }
 }
 
-void RelayDao::addRelay(Relay &relay) const
+void RelayDao::addRelay(Relay relay) const
 {
     QSqlQuery query(mDatabase);
     query.prepare("INSERT INTO relays (name, status) "
@@ -33,7 +33,7 @@ void RelayDao::addRelay(Relay &relay) const
     relay.setId(query.lastInsertId().toInt());
 }
 
-void RelayDao::updateRelay(const Relay &relay) const
+void RelayDao::updateRelay(const Relay relay) const
 {
     QSqlQuery query(mDatabase);
     query.prepare("UPDATE relays SET name = (:name), status = (:status)"
@@ -43,19 +43,19 @@ void RelayDao::updateRelay(const Relay &relay) const
     query.bindValue(":id", relay.id());
 }
 
-QVector<Relay *> RelayDao::relays() const
+QVector<Relay> RelayDao::relays() const
 {
     QSqlQuery query("SELECT * FROM relays", mDatabase);
     query.exec();
 
     // Remeber to delete Relay*
-    QVector<Relay*> list;
+    QVector<Relay> list;
 
     while (query.next()){
-        Relay* relay = new Relay();
-        relay->setId(query.value("id").toInt());
-        relay->setName(query.value("name").toString());
-        relay->setStatus(query.value("status").toString());
+        Relay relay;
+        relay.setId(query.value("id").toInt());
+        relay.setName(query.value("name").toString());
+        relay.setStatus(query.value("status").toString());
         list.push_back(relay);
     }
     return list;

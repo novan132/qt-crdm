@@ -23,6 +23,9 @@ void WorkerClient::start()
 {
     connect(&mSocket, &QTcpSocket::readyRead,
             this, &WorkerClient::readMessage);
+    connect(&mSocket, &QTcpSocket::disconnected, [this]{
+
+    });
     mSocket.setSocketDescriptor(mSocketDescriptor);
 }
 
@@ -40,9 +43,6 @@ void WorkerClient::readMessage()
             break;
         case Message::Type::RADAR_DELETE:
             handleRadarDelete(message);
-            break;
-        case Message::Type::RADAR_UPDATE:
-            handleRadarUpdate(message);
             break;
         case Message::Type::RADAR_ADD:
             handleRadarAdd(message);
@@ -68,18 +68,25 @@ void WorkerClient::handleRadarDelete(Message &message)
     mDb.radarDao.removeRadar(id);
     // update list radar
     mRadars = mDb.radarDao.radars();
-    emit radarsChanged(mRadars);
+    emit radarsChanged();
 }
 
-void WorkerClient::handleRadarUpdate(Message &message)
+void WorkerClient::updateRevision(int revision)
 {
-    QDataStream in(&message.data, QIODevice::ReadOnly);
-    Radar radar;
-    in >> radar;
-    mDb.radarDao.updateRadar(radar);
-    // update list radar
+    mRevision = revision;
     mRadars = mDb.radarDao.radars();
+}
 
+void WorkerClient::updateRadarStatuses(QVector<Radar> radars)
+{
+    for (Radar radar: mRadars){
+        for (Radar r: radars){
+            if (radar.id() == r.id()){
+                radar.status() = r.status();
+                break;
+            }
+        }
+    }
 }
 
 void WorkerClient::handleRadarAdd(Message &message)
@@ -90,7 +97,7 @@ void WorkerClient::handleRadarAdd(Message &message)
     mDb.radarDao.addRadar(radar);
     // update list radar
     mRadars = mDb.radarDao.radars();
-    emit radarsChanged(mRadars);
+    emit radarsChanged();
 }
 
 void WorkerClient::handleRelayCommand(Message &message)

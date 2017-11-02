@@ -18,11 +18,13 @@ public:
     explicit WorkerClient(int socketDescriptor);
 
 signals:
-    void radarsChanged(QVector<Radar*> radars); // signal to notify owner of this class, that radar is changed
+    void radarsChanged(); // signal to notify owner of this class, that radar is changed
 
 public slots:
     void start();
-    void handleRadarUpdate(Message& message);   // this function is also accessed from the owner of WorkerClient
+    //void handleRadarUpdate(Message& message);   // this function is also accessed from the owner of WorkerClient
+    void updateRevision(int revision);
+    void updateRadarStatuses(QVector<Radar> radars);
 
 private slots:
     void readMessage();
@@ -40,9 +42,10 @@ private:
     QTcpSocket mSocket;
     QDataStream mSocketReader;
     DatabaseManager& mDb;
-    QVector<Radar*> mRadars;
-    QVector<Relay*> mRelays;
+    QVector<Radar> mRadars;
+    QVector<Relay> mRelays;
     int mRevision;
+
 };
 
 #endif // WORKERCLIENT_H
